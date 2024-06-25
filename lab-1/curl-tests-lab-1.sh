@@ -39,4 +39,4 @@ curl -s http://$ENVOY_GATEWAY/prefix/rewrite-path-and-modify-headers | jq .
 curl -s http://$ENVOY_GATEWAY/mirror | jq .
 
 
-for name in *; do k delete -k $name/; done
+for name in overlays/*; do k delete -k $name/; done
