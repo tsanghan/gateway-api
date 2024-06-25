@@ -1,0 +1,1 @@
+Do Lab-4 from https://docs.nginx.com/nginx-gateway-fabric/how-to/traffic-management/securing-backend-traffic/
