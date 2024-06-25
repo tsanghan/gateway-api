@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: affogato
+  name: affogato
+  namespace: kopi-teh-space
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: affogato
+  template:
+    metadata:
+      labels:
+        app: affogato
+    spec:
+      containers:
+      - image: tsanghan/kopi-teh:v1
+        name: kopi-teh
+        ports:
+        - containerPort: 8000
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        resources:
+          requests:
+            cpu: 10m
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: eastern-beauty
+  name: eastern-beauty
+  namespace: kopi-teh-space
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: eastern-beauty
+  template:
+    metadata:
+      labels:
+        app: eastern-beauty
+    spec:
+      containers:
+      - image: tsanghan/kopi-teh:v1
+        name: kopi-teh
+        ports:
+        - containerPort: 8000
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        resources:
+          requests:
+            cpu: 10m

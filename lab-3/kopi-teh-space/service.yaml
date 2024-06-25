@@ -1,0 +1,35 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: affogato
+  name: affogato
+  namespace: kopi-teh-space
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: affogato
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: eastern-beauty
+  name: eastern-beauty
+  namespace: kopi-teh-space
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: eastern-beauty
+  type: ClusterIP

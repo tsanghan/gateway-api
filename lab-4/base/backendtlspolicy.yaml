@@ -1,0 +1,17 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: BackendTLSPolicy
+metadata:
+  name: backend-tls
+  namespace: myns
+spec:
+  targetRef:
+    group: ''
+    kind: Service
+    name: secure-app
+    namespace: secure-app-space
+  tls:
+    caCertRefs:
+    - name: backend-cert
+      group: ''
+      kind: ConfigMap
+    hostname: secure-app.example.com

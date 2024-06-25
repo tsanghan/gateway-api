@@ -1,0 +1,51 @@
+# kustomization.yaml contents
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: cilium-gw
+resources:
+- ../../base
+# nameSuffix: -nginx-gw
+
+patches:
+- target:
+    group: gateway.networking.k8s.io
+    version: v1
+    kind: Gateway
+    name: mygw
+  patch: |-
+    - op: replace
+      path: /spec/gatewayClassName
+      value: cilium
+    - op: replace
+      path: /metadata/name
+      value: cilium-gw
+    - op: replace
+      path: /spec/listeners/0/allowedRoutes/namespaces/selector/matchLabels/kubernetes.io~1metadata.name
+      value: cilium-gw
+    - op: replace
+      path: /spec/listeners/1/allowedRoutes/namespaces/selector/matchLabels/kubernetes.io~1metadata.name
+      value: cilium-gw
+- target:
+    group: gateway.networking.k8s.io
+    version: v1
+    kind: HTTPRoute
+    name: redirect-path
+  patch: |-
+    - op: replace
+      path: /spec/parentRefs/0
+      value:
+        name: cilium-gw
+        namespace: cilium-gw
+        sectionName: http
+- target:
+    group: gateway.networking.k8s.io
+    version: v1
+    kind: HTTPRoute
+    name: rewrite-path
+  patch: |-
+    - op: replace
+      path: /spec/parentRefs/0
+      value:
+        name: cilium-gw
+        namespace: cilium-gw
+        sectionName: https

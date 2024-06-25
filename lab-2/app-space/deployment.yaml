@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infra-backend-v1
+  namespace: app-space
+  labels:
+    app: infra-backend-v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: infra-backend-v1
+  template:
+    metadata:
+      labels:
+        app: infra-backend-v1
+    spec:
+      containers:
+      - name: infra-backend-v1
+        # From https://github.com/kubernetes-sigs/ingress-controller-conformance/tree/master/images/echoserver
+        image: gcr.io/k8s-staging-ingressconformance/echoserver:v20221109-7ee2f3e
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        resources:
+          requests:
+            cpu: 10m
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infra-backend-v2
+  namespace: app-space
+  labels:
+    app: infra-backend-v2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: infra-backend-v2
+  template:
+    metadata:
+      labels:
+        app: infra-backend-v2
+    spec:
+      containers:
+      - name: infra-backend-v2
+        image: gcr.io/k8s-staging-ingressconformance/echoserver:v20221109-7ee2f3e
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        resources:
+          requests:
+            cpu: 10m

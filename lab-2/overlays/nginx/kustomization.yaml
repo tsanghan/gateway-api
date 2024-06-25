@@ -1,0 +1,81 @@
+# kustomization.yaml contents
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: nginx-gw
+resources:
+- ../../base
+# nameSuffix: -nginx-gw
+
+patches:
+- target:
+    group: gateway.networking.k8s.io
+    version: v1
+    kind: Gateway
+    name: mygw
+  patch: |-
+    - op: replace
+      path: /spec/gatewayClassName
+      value: nginx
+    - op: replace
+      path: /spec/listeners/0/allowedRoutes/namespaces/selector/matchLabels/kubernetes.io~1metadata.name
+      value: nginx-gw
+    - op: replace
+      path: /metadata/name
+      value: nginx-gw
+- target:
+    group: gateway.networking.k8s.io
+    version: v1
+    kind: HTTPRoute
+    name: redirect-path
+  patch: |-
+    - op: replace
+      path: /spec/parentRefs/0
+      value:
+        name: nginx-gw
+        namespace: nginx-gw
+- target:
+    group: gateway.networking.k8s.io
+    version: v1
+    kind: HTTPRoute
+    name: rewrite-path
+  patch: |-
+    - op: replace
+      path: /spec/parentRefs/0
+      value:
+        name: nginx-gw
+        namespace: nginx-gw
+    - op: replace
+      path: /spec/rules/0/backendRefs/0
+      value:
+        name: infra-backend-v1
+        namespace: app-space
+        port: 8080
+    - op: replace
+      path: /spec/rules/1/backendRefs/0
+      value:
+        name: infra-backend-v1
+        namespace: app-space
+        port: 8080
+- target:
+    group: gateway.networking.k8s.io
+    version: v1
+    kind: HTTPRoute
+    name: request-mirror
+  patch: |-
+    - op: replace
+      path: /spec/parentRefs/0
+      value:
+        name: nginx-gw
+        namespace: nginx-gw
+    - op: replace
+      path: /spec/rules/0/filters/0/requestMirror/backendRef
+      value:
+        name: infra-backend-v2
+        namespace: app-space
+        port: 8080
+    - op: replace
+      path: /spec/rules/0/backendRefs/0
+      value:
+        name: infra-backend-v1
+        namespace: app-space
+        port: 8080

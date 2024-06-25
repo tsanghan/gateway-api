@@ -1,0 +1,11 @@
+# kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- deployment.yaml
+- service.yaml
+- namespace.yaml
+- gateway.yaml
+- httproute-redirect-path.yaml
+- httproute-rewrite-path.yaml
+- httproute-request-mirror.yaml

@@ -1,0 +1,10 @@
+# kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ca-certificate.yaml
+- ca-issuer.yaml
+- a-namespace.yaml
+- gateway.yaml
+- httproute-redirect-path.yaml
+- httproute-rewrite-path.yaml

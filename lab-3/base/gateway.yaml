@@ -1,0 +1,35 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: mygw
+  annotations:
+    cert-manager.io/issuer: my-ca-issuer
+spec:
+  gatewayClassName: mygwclassname
+  listeners:
+    - name: http
+      hostname: "www.kopi-teh.com"
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: myns
+    - name: https
+      hostname: "www.kopi-teh.com"
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+        - kind: Secret
+          name: mycafe-secret
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: myns

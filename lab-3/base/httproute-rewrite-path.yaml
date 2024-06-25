@@ -1,0 +1,40 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: rewrite-path
+spec:
+  parentRefs:
+  - name: mygw
+    namespace: myns
+  hostnames:
+  - "www.kopi-teh.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /coffee
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /
+    backendRefs:
+    - name: affogato
+      namespace: kopi-teh-space
+      port: 80
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /tea
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /
+    backendRefs:
+    - name: eastern-beauty
+      namespace: kopi-teh-space
+      port: 80
