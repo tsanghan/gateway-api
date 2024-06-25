@@ -5,8 +5,6 @@
 #
 set -euo pipefail
 
-pushd ~/Projects/gateway-api/lab-2
-
 k apply -f app-space/
 
 for name in overlays/*; do k apply -k $name/; done
@@ -77,5 +75,4 @@ curl -s http://$ENVOY_GATEWAY/mirror | jq .
 
 for name in overlays/*; do k delete -k $name/; done
 k delete -f reference-grant/
-
-popd
+k delete -f app-space/
