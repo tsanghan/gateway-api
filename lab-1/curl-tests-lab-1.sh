@@ -5,8 +5,7 @@
 #
 set -euo pipefail
 
-pushd ~/Projects/gateway-api/lab-1/overlays
-for name in *; do k apply -k $name/; done
+for name in overlays/*; do k apply -k $name/; done
 
 CILIUM_GATEWAY=$(kubectl -n cilium-gw get gateway cilium-gw -o jsonpath='{.status.addresses[0].value}')
 echo $CILIUM_GATEWAY
@@ -41,5 +40,3 @@ curl -s http://$ENVOY_GATEWAY/mirror | jq .
 
 
 for name in *; do k delete -k $name/; done
-
-popd
