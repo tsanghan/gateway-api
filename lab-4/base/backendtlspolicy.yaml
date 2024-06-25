@@ -4,8 +4,8 @@ metadata:
   name: backend-tls
   namespace: myns
 spec:
-  targetRef:
-    group: ''
+  targetRefs:
+  - group: ''
     kind: Service
     name: secure-app
     namespace: secure-app-space
@@ -15,9 +15,3 @@ spec:
       group: ''
       kind: ConfigMap
     hostname: secure-app.example.com
-  # tls:
-  #   caCertRefs:
-  #   - name: backend-cert
-  #     group: ''
-  #     kind: ConfigMap
-  #   hostname: secure-app.example.com
