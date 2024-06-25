@@ -8,7 +8,6 @@ spec:
   - group: ''
     kind: Service
     name: secure-app
-    namespace: secure-app-space
   validation:
     caCertificateRefs:
     - name: backend-cert
