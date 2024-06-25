@@ -8,15 +8,9 @@ spec:
     kind: Service
     name: secure-app
     namespace: default
-  validation:
-    caCertificateRefs:
+  tls:
+    caCertRefs:
     - name: backend-cert
       group: ''
       kind: ConfigMap
     hostname: secure-app.example.com
-  # tls:
-  #   caCertRefs:
-  #   - name: backend-cert
-  #     group: ''
-  #     kind: ConfigMap
-  #   hostname: secure-app.example.com

@@ -9,9 +9,15 @@ spec:
     kind: Service
     name: secure-app
     namespace: secure-app-space
-  tls:
-    caCertRefs:
+  validation:
+    caCertificateRefs:
     - name: backend-cert
       group: ''
       kind: ConfigMap
     hostname: secure-app.example.com
+  # tls:
+  #   caCertRefs:
+  #   - name: backend-cert
+  #     group: ''
+  #     kind: ConfigMap
+  #   hostname: secure-app.example.com
